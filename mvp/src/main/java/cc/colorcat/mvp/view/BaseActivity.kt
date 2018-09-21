@@ -35,7 +35,7 @@ import cc.colorcat.tip.Tip
  * GitHub: https://github.com/ccolorcat
  */
 abstract class BaseActivity : AppCompatActivity(), UI {
-    protected val manager: FragmentManager
+    protected val mManager: FragmentManager
         get() = supportFragmentManager
 
     final override val isActive: Boolean
@@ -71,7 +71,7 @@ abstract class BaseActivity : AppCompatActivity(), UI {
     }
 
     override fun onBackPressed() {
-        for (fragment in manager.fragments) {
+        for (fragment in mManager.fragments) {
             fragment as BaseFragment
             if (fragment.isActive && fragment.isVisible && fragment.handleBackPressed()) {
                 return

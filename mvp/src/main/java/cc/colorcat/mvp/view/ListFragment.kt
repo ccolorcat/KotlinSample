@@ -17,7 +17,6 @@
 package cc.colorcat.mvp.view
 
 import android.os.Bundle
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -33,25 +32,34 @@ import kotlinx.android.synthetic.main.fragment_list.*
  * GitHub: https://github.com/ccolorcat
  */
 abstract class ListFragment<T> : BaseFragment(), IList.View<T> {
-    override val layoutId: Int = R.layout.fragment_list
     protected val mItems: MutableList<T> = ArrayList()
 
+    protected open val mRefreshEnabled = true
+    protected open val mLoadMoreEnabled = false
+    override val mLayoutId: Int = R.layout.fragment_list
     abstract val mPresenter: IList.Presenter<T>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rv_items.layoutManager = getLayoutManager()
         rv_items.adapter = createRvAdapter(mItems)
-        rv_items.addItemDecoration(getItemDecoration())
-        rv_items.addOnScrollListener(object : RvLoadMoreScrollListener(1) {
-            override fun onLoadMore() {
-                mPresenter.toGetMoreItems()
-            }
-        })
-
-        srl_root.setOnRefreshListener {
-            mPresenter.toRefreshItems()
+        getItemDecoration()?.also { rv_items.addItemDecoration(it) }
+        if (mLoadMoreEnabled) {
+            rv_items.addOnScrollListener(object : RvLoadMoreScrollListener(1) {
+                override fun onLoadMore() {
+                    mPresenter.toGetMoreItems()
+                }
+            })
         }
+
+        if (mRefreshEnabled) {
+            srl_root.setOnRefreshListener {
+                mPresenter.toRefreshItems()
+            }
+        } else {
+            srl_root.isEnabled = false
+        }
+
         mPresenter.onCreate(this)
     }
 
@@ -80,9 +88,7 @@ abstract class ListFragment<T> : BaseFragment(), IList.View<T> {
         return LinearLayoutManager(view!!.context)
     }
 
-    protected open fun getItemDecoration(): RecyclerView.ItemDecoration {
-        return DividerItemDecoration(view!!.context, DividerItemDecoration.VERTICAL)
-    }
+    protected open fun getItemDecoration(): RecyclerView.ItemDecoration? = null
 
     abstract fun createRvAdapter(items: List<T>): RvAdapter
 }

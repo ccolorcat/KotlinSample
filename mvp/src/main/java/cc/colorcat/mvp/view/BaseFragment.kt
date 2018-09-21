@@ -38,7 +38,7 @@ import cc.colorcat.tip.Tip
  * GitHub: https://github.com/ccolorcat
  */
 abstract class BaseFragment : Fragment(), UI {
-    protected val childManager: FragmentManager
+    protected val mChildManager: FragmentManager
         get() = childFragmentManager
 
     final override val isActive: Boolean
@@ -60,7 +60,7 @@ abstract class BaseFragment : Fragment(), UI {
     private var mActive = false
 
     @LayoutRes
-    protected open val layoutId: Int = -1
+    protected open val mLayoutId: Int = -1
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +71,7 @@ abstract class BaseFragment : Fragment(), UI {
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = super.onCreateView(inflater, container, savedInstanceState)
-        if (layoutId != -1) view = inflater.inflate(layoutId, container, false)
+        if (mLayoutId != -1) view = inflater.inflate(mLayoutId, container, false)
         return view
     }
 

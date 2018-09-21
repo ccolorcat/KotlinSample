@@ -31,7 +31,7 @@ class ContainerActivity : BaseActivity() {
         setContentView(R.layout.activity_container)
         @Suppress("UNCHECKED_CAST")
         val clazz = Class.forName(getExtra(Const.key.fragment_name_String)!!) as Class<BaseFragment>
-        manager.beginTransaction()
+        mManager.beginTransaction()
                 .replace(R.id.fl_container, newFragment(clazz, extra!!), clazz.name)
                 .commit()
     }
