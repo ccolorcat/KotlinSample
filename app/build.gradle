@@ -1,0 +1,129 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId "cc.colorcat.kotlinsample"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true // 启用矢量图形支持
+
+        // 友盟 App key，定义位于 /src/main/AndroidManifest.xml <meta-data android:name="UMENG_APPKEY".../>
+        // 高德地图 api key, 定义位于 /src/main/AndroidManifest.xml <meta-data android:name="com.amap.api.v2.apikey".../>
+        manifestPlaceholders = [
+                UMENG_APPKEY_VALUE: "0123456789101112131415",
+                AMAP_KEY_VALUE    : "b7053973d603bf7b8ad186f06caaf62e"
+        ]
+
+        buildConfigField('String', 'SHA256_EXTRA', '"android-xyz!*#73f2we!*#123:Android_qaz!@)(*789"')
+        buildConfigField('String', 'AES_KEY_SERVER', '"ggpt_client_!@#:"')
+        buildConfigField('String', 'AES_KEY_WEB', '"es-aes-html-3&#r"')
+        buildConfigField('String', 'AUTHORIZATION', '"Basic Z2dwdC1hbmRyb2lkLTQ1NiEqIzpnZ3B0LWFuZHJvaWQtNDU2ISoj"')
+    }
+
+    def PREFIX = "KotlinSample_" // app 名称前缀，用于渠道统计和打包
+    flavorDimensions('default') // flavorDimensions "default"
+    // 多渠道打包，友盟统计渠道标签，定义位于 /src/main/AndroidManifest.xml <meta-data android:name="UMENG_CHANNEL".../>
+    productFlavors {
+        android_dev {
+            dimension "default"
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: PREFIX + "android_dev"]
+        }
+
+        official {
+            dimension "default"
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: PREFIX + "android_official"]
+        }
+
+        xiaomi {
+            dimension "default"
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: PREFIX + "android_xiaomi"]
+        }
+
+        wandoujia {
+            dimension "default"
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: PREFIX + "android_wandoujia"]
+        }
+    }
+
+    signingConfigs {
+        debug {
+        }
+
+        release {
+            storeFile
+            storePassword
+            keyAlias
+            keyPassword
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
+
+            // develop
+            buildConfigField('String', 'BASE_URL', '"http://192.168.0.44:8080/"')
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
+
+            // release
+            buildConfigField('String', 'BASE_URL', '"http://www.imooc.com"')
+
+//            android.applicationVariants.all { variant ->
+//                variant.outputs.all {
+//                    outputFileName = "${PREFIX}V${defaultConfig.versionName}_${variant.productFlavors[0].name}_${releaseTime()}.apk"
+//                }
+//            }
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+//File propFile = file('signing.properties')
+//if (propFile.exists()) {
+//    Properties props = new Properties()
+//    props.load(new FileInputStream(propFile))
+//    if (props.containsKey('STORE_FILE')
+//            && props.containsKey('STORE_PASSWORD')
+//            && props.containsKey('KEY_ALIAS')
+//            && props.containsKey('KEY_PASSWORD')) {
+//        android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+//        android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+//        android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+//        android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+//    }
+//}
+//
+//static def releaseTime() {
+//    return new Date().format("yyyyMMdd")
+//}
+
+dependencies {
+    implementation rootProject.ext.kotlinSupport
+    implementation project(':mvp')
+    androidTestImplementation rootProject.ext.testRunner
+    androidTestImplementation rootProject.ext.testEspresso
+    testImplementation rootProject.ext.junit
+}
