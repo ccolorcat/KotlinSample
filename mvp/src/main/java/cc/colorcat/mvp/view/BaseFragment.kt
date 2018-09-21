@@ -41,26 +41,25 @@ abstract class BaseFragment : Fragment(), UI {
     protected val mChildManager: FragmentManager
         get() = childFragmentManager
 
-    final override val isActive: Boolean
-        get() = mActive
+    final override var mExtra: Bundle? = null
 
-    override val mContext: Context?
+    final override val mContext: Context?
         get() = this@BaseFragment.context
 
     final override var mPermissionListener: PermissionListener? = null
 
-    final override val mRequesterStore: SparseArray<Requester> by lazy { SparseArray<Requester>(4) }
-
-    final override var extra: Bundle? = null
+    final override val mRequesterStore: SparseArray<Requester> by lazy {
+        SparseArray<Requester>(2)
+    }
 
     override val mTip: Tip by lazy {
         Tip.from(this@BaseFragment, R.layout.network_error, this@BaseFragment as? Tip.OnTipClickListener)
     }
 
-    private var mActive = false
-
     @LayoutRes
     protected open val mLayoutId: Int = -1
+
+    private var mActive = false
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +70,9 @@ abstract class BaseFragment : Fragment(), UI {
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = super.onCreateView(inflater, container, savedInstanceState)
-        if (mLayoutId != -1) view = inflater.inflate(mLayoutId, container, false)
+        if (mLayoutId != -1) {
+            view = inflater.inflate(mLayoutId, container, false)
+        }
         return view
     }
 
@@ -129,4 +130,7 @@ abstract class BaseFragment : Fragment(), UI {
     final override fun finish() {
         activity?.finish()
     }
+
+    final override val isActive: Boolean
+        get() = mActive
 }

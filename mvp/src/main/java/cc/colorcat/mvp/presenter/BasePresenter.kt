@@ -14,30 +14,26 @@
  * limitations under the License.
  */
 
-package cc.colorcat.mvp.view
+package cc.colorcat.mvp.presenter
 
-import android.os.Bundle
-import android.view.View
-import cc.colorcat.mvp.R
-import cc.colorcat.mvp.extension.batchClick
-import kotlinx.android.synthetic.main.activity_launcher.*
+import android.support.annotation.CallSuper
+import cc.colorcat.mvp.contract.IBase
 
 /**
  * Author: cxx
  * Date: 2018-09-21
  * GitHub: https://github.com/ccolorcat
  */
-class LaunchActivity : BaseActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_launcher)
+abstract class BasePresenter<V : IBase.View> : IBase.Presenter<V> {
+    protected var mView: V? = null
 
-        batchClick(mClick, btn_show_courses)
+    @CallSuper
+    override fun onCreate(view: V) {
+        mView = view
     }
 
-    private val mClick = View.OnClickListener {
-        when (it.id) {
-            R.id.btn_show_courses -> navigateToFragment(CoursesFragment::class.java)
-        }
+    @CallSuper
+    override fun onDestroy() {
+        mView = null
     }
 }

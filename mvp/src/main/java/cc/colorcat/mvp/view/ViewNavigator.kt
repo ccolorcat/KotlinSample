@@ -58,7 +58,7 @@ interface ViewNavigator {
     }
 
 
-    var extra: Bundle?
+    var mExtra: Bundle?
 
     fun <T : BaseFragment> newFragment(clazz: Class<T>, vararg pairs: Pair<String, Any>): T {
         return if (pairs.isEmpty()) clazz.newInstance() else newFragment(clazz, bundleOf(*pairs))
@@ -84,19 +84,19 @@ interface ViewNavigator {
 
     @Suppress("UNCHECKED_CAST")
     fun <T> getExtra(key: String): T? {
-        return extra?.get(key) as T?
+        return mExtra?.get(key) as T?
     }
 
     @Suppress("UNCHECKED_CAST")
     fun <T> getExtra(key: String, defaultValue: T): T {
-        return extra?.get(key) as? T ?: defaultValue
+        return mExtra?.get(key) as? T ?: defaultValue
     }
 
     fun handleExtra(state: Bundle?, save: Boolean) {
         if (save) {
-            extra?.also { state?.putBundle(EXTRA, it) }
+            mExtra?.also { state?.putBundle(EXTRA, it) }
         } else {
-            state?.also { extra = it.getBundle(EXTRA) }
+            state?.also { mExtra = it.getBundle(EXTRA) }
         }
     }
 }

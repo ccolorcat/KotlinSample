@@ -14,30 +14,19 @@
  * limitations under the License.
  */
 
-package cc.colorcat.mvp.view
+package cc.colorcat.mvp.presenter
 
-import android.os.Bundle
-import android.view.View
-import cc.colorcat.mvp.R
-import cc.colorcat.mvp.extension.batchClick
-import kotlinx.android.synthetic.main.activity_launcher.*
+import cc.colorcat.mvp.api.ApiListener
+import cc.colorcat.mvp.api.ApiService
+import cc.colorcat.mvp.entity.Course
 
 /**
  * Author: cxx
  * Date: 2018-09-21
  * GitHub: https://github.com/ccolorcat
  */
-class LaunchActivity : BaseActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_launcher)
-
-        batchClick(mClick, btn_show_courses)
-    }
-
-    private val mClick = View.OnClickListener {
-        when (it.id) {
-            R.id.btn_show_courses -> navigateToFragment(CoursesFragment::class.java)
-        }
+class CoursesPresenter : ListPresenter<Course>() {
+    override fun loadItems(refresh: Boolean, more: Boolean, listener: ApiListener<List<Course>>) {
+        ApiService.listCourses(4, 30).enqueue(listener)
     }
 }

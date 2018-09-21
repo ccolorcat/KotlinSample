@@ -21,21 +21,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.ColorStateList
-import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.Settings
-import android.support.annotation.ColorInt
-import android.support.annotation.ColorRes
-import android.support.annotation.LayoutRes
 import android.support.design.widget.TabLayout
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.util.TypedValue
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import java.io.Serializable
@@ -47,14 +39,6 @@ import java.io.Serializable
  */
 fun Context.hasPermission(permission: String): Boolean {
     return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
-}
-
-fun Fragment.hasPermission(permission: String): Boolean {
-    return ContextCompat.checkSelfPermission(context!!, permission) == PackageManager.PERMISSION_GRANTED
-}
-
-fun Activity.requestPermissionsCompat(permissions: Array<String>, requestCode: Int) {
-    ActivityCompat.requestPermissions(this, permissions, requestCode)
 }
 
 @Suppress("UNCHECKED_CAST")
@@ -117,29 +101,6 @@ internal fun Context.dpToPx(dp: Int): Float {
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), resources.displayMetrics)
 }
 
-@ColorInt
-internal fun Context.obtainColor(@ColorRes id: Int): Int {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        this.getColor(id)
-    } else {
-        @Suppress("DEPRECATION")
-        this.resources.getColor(id)
-    }
-}
-
-internal fun Context.obtainColorStateList(@ColorRes id: Int): ColorStateList? {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        this.getColorStateList(id)
-    } else {
-        @Suppress("DEPRECATION")
-        this.resources.getColorStateList(id)
-    }
-}
-
-internal fun View.inflate(@LayoutRes resource: Int, root: ViewGroup? = null, attachToRoot: Boolean = false): View {
-    return LayoutInflater.from(this.context).inflate(resource, root, attachToRoot)
-}
-
 internal fun ViewPager.onPageSelected(callback: (Int) -> Unit) {
     this.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
         override fun onPageSelected(position: Int) {
@@ -161,16 +122,6 @@ internal fun TabLayout.onTabSelected(callback: (TabLayout.Tab) -> Unit) {
             callback(tab)
         }
     })
-}
-
-internal fun ViewGroup.setChildViewEnabled(enabled: Boolean) {
-    for (i in 0 until childCount) {
-        val view = getChildAt(i)
-        view.isEnabled = enabled
-        if (view is ViewGroup) {
-            view.setChildViewEnabled(enabled)
-        }
-    }
 }
 
 internal fun ViewGroup.processAllChildView(processor: (View) -> Unit) {

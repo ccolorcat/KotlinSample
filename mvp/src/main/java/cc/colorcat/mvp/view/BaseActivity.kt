@@ -38,20 +38,19 @@ abstract class BaseActivity : AppCompatActivity(), UI {
     protected val mManager: FragmentManager
         get() = supportFragmentManager
 
-    final override val isActive: Boolean
-        get() = !isFinishing
+    final override var mExtra: Bundle? = null
 
     final override val mContext: Context
         get() = this@BaseActivity
 
     final override var mPermissionListener: PermissionListener? = null
 
-    final override val mRequesterStore: SparseArray<Requester> by lazy { SparseArray<Requester>(4) }
-
-    final override var extra: Bundle? = null
+    final override val mRequesterStore: SparseArray<Requester> by lazy {
+        SparseArray<Requester>(2)
+    }
 
     override val mTip: Tip by lazy {
-        Tip.from(this, R.layout.network_error, this@BaseActivity as? Tip.OnTipClickListener)
+        Tip.from(this@BaseActivity, R.layout.network_error, this@BaseActivity as? Tip.OnTipClickListener)
     }
 
     @CallSuper
@@ -104,4 +103,7 @@ abstract class BaseActivity : AppCompatActivity(), UI {
             finish()
         }
     }
+
+    final override val isActive: Boolean
+        get() = !isFinishing
 }

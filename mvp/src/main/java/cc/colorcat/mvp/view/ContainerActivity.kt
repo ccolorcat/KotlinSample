@@ -32,7 +32,7 @@ class ContainerActivity : BaseActivity() {
         @Suppress("UNCHECKED_CAST")
         val clazz = Class.forName(getExtra(Const.key.fragment_name_String)!!) as Class<BaseFragment>
         mManager.beginTransaction()
-                .replace(R.id.fl_container, newFragment(clazz, extra!!), clazz.name)
+                .replace(R.id.fl_container, newFragment(clazz, mExtra!!), clazz.name)
                 .commit()
     }
 }
