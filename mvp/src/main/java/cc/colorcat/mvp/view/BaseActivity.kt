@@ -38,10 +38,10 @@ abstract class BaseActivity : AppCompatActivity(), UI {
     protected val mManager: FragmentManager
         get() = supportFragmentManager
 
-    final override var mExtra: Bundle? = null
-
     final override val mContext: Context
         get() = this@BaseActivity
+
+    final override var mExtra: Bundle? = null
 
     final override var mPermissionListener: PermissionListener? = null
 
@@ -95,13 +95,6 @@ abstract class BaseActivity : AppCompatActivity(), UI {
     final override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         handleActivityResult(requestCode, resultCode, data)
-    }
-
-    final override fun startActivity(intent: Intent, finish: Boolean) {
-        startActivity(intent)
-        if (finish) {
-            finish()
-        }
     }
 
     final override val isActive: Boolean

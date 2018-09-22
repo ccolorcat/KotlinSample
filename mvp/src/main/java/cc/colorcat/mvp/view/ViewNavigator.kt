@@ -16,10 +16,13 @@
 
 package cc.colorcat.mvp.view
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import cc.colorcat.mvp.extension.bundleOf
+import android.os.Parcelable
+import android.support.v4.app.Fragment
+import java.io.Serializable
 
 /**
  * 用于 Fragment 的实例生成和 Activity 的跳转，主要解决传入数据的自动保存与恢复。
@@ -34,52 +37,69 @@ interface ViewNavigator {
     companion object {
         const val EXTRA = "cc.colorcat.mvp.view.ViewNavigator"
 
-        fun <T : BaseFragment> newFragment(clazz: Class<T>, vararg pairs: Pair<String, Any>): T {
-            return if (pairs.isEmpty()) clazz.newInstance() else newFragment(clazz, bundleOf(*pairs))
+        fun <T : Fragment> newFragment(clazz: Class<T>, vararg pairs: Pair<String, Any>): T {
+            return newFragment(clazz, bundleOf(*pairs))
         }
 
-        fun <T : BaseFragment> newFragment(clazz: Class<T>, extra: Bundle): T {
+        fun <T : Fragment> newFragment(clazz: Class<T>, extra: Bundle?): T {
             val fragment = clazz.newInstance()
-            val args = Bundle(1)
-            args.putBundle(EXTRA, extra)
-            fragment.arguments = args
+            extra?.also {
+                val args = Bundle(1)
+                args.putBundle(EXTRA, it)
+                fragment.arguments = args
+            }
             return fragment
         }
 
-        fun <T : BaseActivity> newIntent(context: Context, clazz: Class<T>, vararg pairs: Pair<String, Any>): Intent {
-            return if (pairs.isEmpty()) Intent(context, clazz) else newIntent(context, clazz, bundleOf(*pairs))
+        fun newIntent(context: Context, clazz: Class<out Activity>, vararg pairs: Pair<String, Any>): Intent {
+            return newIntent(context, clazz, bundleOf(*pairs))
         }
 
-        fun <T : BaseActivity> newIntent(context: Context, clazz: Class<T>, extra: Bundle): Intent {
+        fun newIntent(context: Context, clazz: Class<out Activity>, extra: Bundle? = null): Intent {
             val intent = Intent(context, clazz)
-            intent.putExtra(EXTRA, extra)
+            extra?.also { intent.putExtra(EXTRA, it) }
             return intent
+        }
+
+        fun bundleOf(vararg pairs: Pair<String, Any>): Bundle? {
+            if (pairs.isEmpty()) return null
+            val args = Bundle()
+            pairs.forEach { (k, v) ->
+                when (v) {
+                    is CharSequence -> args.putCharSequence(k, v)
+                    is Int -> args.putInt(k, v)
+                    is Parcelable -> args.putParcelable(k, v)
+                    is Serializable -> args.putSerializable(k, v)
+                    is Long -> args.putLong(k, v)
+                    is Char -> args.putChar(k, v)
+                    is Float -> args.putFloat(k, v)
+                    is Double -> args.putDouble(k, v)
+                    is Short -> args.putShort(k, v)
+                    is Byte -> args.putByte(k, v)
+                    else -> throw IllegalArgumentException("unsupported data type, type=${v.javaClass}, value=$v")
+                }
+            }
+            return args
         }
     }
 
+
+    val mContext: Context?
 
     var mExtra: Bundle?
 
-    fun <T : BaseFragment> newFragment(clazz: Class<T>, vararg pairs: Pair<String, Any>): T {
-        return if (pairs.isEmpty()) clazz.newInstance() else newFragment(clazz, bundleOf(*pairs))
+    fun navigateTo(clazz: Class<out Activity>, vararg pairs: Pair<String, Any>) {
+        navigateTo(clazz, bundleOf(*pairs))
     }
 
-    fun <T : BaseFragment> newFragment(clazz: Class<T>, extra: Bundle): T {
-        val fragment = clazz.newInstance()
-        val args = Bundle(1)
-        args.putBundle(EXTRA, extra)
-        fragment.arguments = args
-        return fragment
-    }
-
-    fun <T : BaseActivity> newIntent(context: Context, clazz: Class<T>, vararg pairs: Pair<String, Any>): Intent {
-        return if (pairs.isEmpty()) Intent(context, clazz) else newIntent(context, clazz, bundleOf(*pairs))
-    }
-
-    fun <T : BaseActivity> newIntent(context: Context, clazz: Class<T>, extra: Bundle): Intent {
-        val intent = Intent(context, clazz)
-        intent.putExtra(EXTRA, extra)
-        return intent
+    fun navigateTo(clazz: Class<out Activity>, extra: Bundle? = null, processor: ((Intent) -> Unit)? = null) {
+        mContext?.also {
+            val intent = ViewNavigator.newIntent(it, clazz, extra)
+            if (processor != null) {
+                processor(intent)
+            }
+            it.startActivity(intent)
+        }
     }
 
     @Suppress("UNCHECKED_CAST")

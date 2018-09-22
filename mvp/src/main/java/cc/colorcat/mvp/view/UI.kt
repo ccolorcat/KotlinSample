@@ -16,7 +16,6 @@
 
 package cc.colorcat.mvp.view
 
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
@@ -41,8 +40,6 @@ interface UI : ViewNavigator, IBase.View {
     companion object {
         const val REQUEST_CODE_PERMISSION = 0x900
     }
-
-    val mContext: Context?
 
     var mPermissionListener: PermissionListener?
 
@@ -106,16 +103,6 @@ interface UI : ViewNavigator, IBase.View {
     fun navigateToFragment(clazz: Class<out BaseFragment>, vararg pairs: Pair<String, Any>) {
         navigateTo(ContainerActivity::class.java, Const.key.fragment_name_String to clazz.name, *pairs)
     }
-
-    fun navigateTo(clazz: Class<out BaseActivity>, vararg pairs: Pair<String, Any>) {
-        navigateTo(clazz, false, *pairs)
-    }
-
-    fun navigateTo(clazz: Class<out BaseActivity>, finish: Boolean = false, vararg pairs: Pair<String, Any>) {
-        startActivity(newIntent(mContext!!, clazz, *pairs), finish)
-    }
-
-    fun startActivity(intent: Intent, finish: Boolean)
 
     override fun showTip() {
         mTip.showTip()
