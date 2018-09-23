@@ -16,11 +16,17 @@
 
 package cc.colorcat.mvp.view
 
+import android.Manifest
 import android.os.Bundle
 import android.view.View
 import cc.colorcat.mvp.R
+import cc.colorcat.mvp.extension.ImagePickerRequester
+import cc.colorcat.mvp.extension.PermissionListener
 import cc.colorcat.mvp.extension.batchClick
+import cc.colorcat.mvp.extension.image.ImageLoader
+import cc.colorcat.mvp.extension.onResultOk
 import kotlinx.android.synthetic.main.activity_launcher.*
+import java.util.*
 
 /**
  * Author: cxx
@@ -32,12 +38,41 @@ class LaunchActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
 
-        batchClick(mClick, btn_show_courses)
+        batchClick(mClick,
+                btn_show_courses,
+                btn_request_permission,
+                btn_pick_image
+        )
     }
 
     private val mClick = View.OnClickListener {
         when (it.id) {
             R.id.btn_show_courses -> navigateToFragment(CoursesFragment::class.java)
+            R.id.btn_request_permission -> requestWriteExternalStoragePermission()
+            R.id.btn_pick_image -> pickImage()
         }
+    }
+
+    private fun requestWriteExternalStoragePermission() {
+        requestPermissions(
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                object : PermissionListener {
+                    override fun onAllGranted() {
+                        toast("onAllGranted")
+                    }
+
+                    override fun onDenied(permissions: Array<String>) {
+                        toast("onDenied, permissions=${Arrays.toString(permissions)}")
+                    }
+                }
+        )
+    }
+
+    private fun pickImage() {
+        ImagePickerRequester()
+                .onResultOk {
+                    ImageLoader.load(it!!.data).into(iv_image)
+                }
+                .also { startForResult(it) }
     }
 }
