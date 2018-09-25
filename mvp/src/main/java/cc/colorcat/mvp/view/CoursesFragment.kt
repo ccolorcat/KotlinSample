@@ -16,12 +16,14 @@
 
 package cc.colorcat.mvp.view
 
-import android.view.ContextMenu
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
+import cc.colorcat.adapter.AutoChoiceRvAdapter
+import cc.colorcat.adapter.ChoiceRvAdapter
 import cc.colorcat.adapter.RvAdapter
 import cc.colorcat.adapter.RvHolder
-import cc.colorcat.adapter.SimpleRvAdapter
 import cc.colorcat.mvp.R
 import cc.colorcat.mvp.contract.IList
 import cc.colorcat.mvp.entity.Course
@@ -36,12 +38,14 @@ import cc.colorcat.mvp.presenter.CoursesPresenter
  */
 class CoursesFragment : ListFragment<Course>() {
     override val mPresenter: IList.Presenter<Course> = CoursesPresenter()
+    private lateinit var mAdapter: ChoiceRvAdapter
 
     override fun createAdapter(items: List<Course>): RvAdapter {
-        return object : SimpleRvAdapter<Course>(items, R.layout.item_course) {
+        mAdapter = object : AutoChoiceRvAdapter() {
             private val transformer = CircleTransformer()
 
-            override fun bindView(holder: RvHolder, data: Course) {
+            override fun bindView(holder: RvHolder, position: Int) {
+                val data = items[position]
                 val helper = holder.helper
                 helper.setText(R.id.tv_serial_number, helper.position.toString())
                         .setText(R.id.tv_name, data.name)
@@ -50,14 +54,35 @@ class CoursesFragment : ListFragment<Course>() {
                         .addTransformer(transformer)
                         .into(helper.get(R.id.iv_icon))
             }
+
+            override fun getLayoutResId(viewType: Int): Int = R.layout.item_course
+
+            override fun getItemCount(): Int = items.size
         }
+        return mAdapter
     }
 
-    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-        return super.onContextItemSelected(item)
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.choice_mode, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.single -> setChoiceMode(ChoiceRvAdapter.ChoiceMode.SINGLE)
+            R.id.multiple -> setChoiceMode(ChoiceRvAdapter.ChoiceMode.MULTIPLE)
+            R.id.none -> setChoiceMode(ChoiceRvAdapter.ChoiceMode.NONE)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun setChoiceMode(@ChoiceRvAdapter.ChoiceMode mode: Int) {
+        mAdapter.choiceMode = mode
+        mAdapter.notifyDataSetChanged()
     }
 }

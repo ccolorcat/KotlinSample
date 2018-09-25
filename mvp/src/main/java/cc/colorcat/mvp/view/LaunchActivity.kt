@@ -37,9 +37,11 @@ class LaunchActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
+        setTitle(R.string.demo)
 
         batchClick(mClick,
                 btn_show_courses,
+                btn_show_flipper,
                 btn_request_permission,
                 btn_pick_image
         )
@@ -48,6 +50,7 @@ class LaunchActivity : BaseActivity() {
     private val mClick = View.OnClickListener {
         when (it.id) {
             R.id.btn_show_courses -> navigateToFragment(CoursesFragment::class.java)
+            R.id.btn_show_flipper -> navigateToFragment(FlipperFragment::class.java)
             R.id.btn_request_permission -> requestWriteExternalStoragePermission()
             R.id.btn_pick_image -> pickImage()
         }

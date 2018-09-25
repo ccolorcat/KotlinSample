@@ -26,4 +26,5 @@
     <string name="single_mode">Single Mode</string>
     <string name="multiple_mode">Multiple Mode</string>
     <string name="none">None</string>
+    <string name="flip_view">FlipView VanGogh</string>
 </resources>

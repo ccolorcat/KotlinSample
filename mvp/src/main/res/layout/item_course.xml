@@ -19,6 +19,7 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:layout_marginTop="1px"
+    android:background="@drawable/bg_accent_white"
     android:orientation="horizontal"
     android:padding="8dp">
 
@@ -51,6 +52,7 @@
         android:ellipsize="end"
         android:gravity="top"
         android:lines="1"
+        android:textColor="@color/text_white_darker_grey"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_icon"
@@ -63,6 +65,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:maxLines="3"
+        android:textColor="@color/text_white_darker_grey"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
