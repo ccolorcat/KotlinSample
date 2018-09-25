@@ -14,25 +14,19 @@
  * limitations under the License.
  */
 
-package cc.colorcat.mvp.view
+package cc.colorcat.mvp.extension
 
-import android.os.Bundle
-import cc.colorcat.mvp.R
-import cc.colorcat.mvp.extension.Const
+import android.content.Intent
 
 /**
  * Author: cxx
- * Date: 2018-09-21
+ * Date: 2018-09-23
  * GitHub: https://github.com/ccolorcat
  */
-class ContainerActivity : BaseActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_container)
-        @Suppress("UNCHECKED_CAST")
-        val clazz = Class.forName(getExtra(Const.key.fragment_name_String)!!) as Class<BaseFragment>
-        mManager.beginTransaction()
-                .replace(R.id.fl_container, ViewNavigator.newFragment(clazz, mExtra), clazz.name)
-                .commit()
+class ImagePickerRequester : Requester() {
+    override fun lazyIntent(): Intent {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        return intent
     }
 }

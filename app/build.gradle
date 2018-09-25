@@ -6,8 +6,8 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
 
     defaultConfig {
@@ -23,14 +23,9 @@ android {
         // 友盟 App key，定义位于 /src/main/AndroidManifest.xml <meta-data android:name="UMENG_APPKEY".../>
         // 高德地图 api key, 定义位于 /src/main/AndroidManifest.xml <meta-data android:name="com.amap.api.v2.apikey".../>
         manifestPlaceholders = [
-                UMENG_APPKEY_VALUE: "0123456789101112131415",
-                AMAP_KEY_VALUE    : "b7053973d603bf7b8ad186f06caaf62e"
+                UMENG_APPKEY_VALUE: "1234567890",
+                AMAP_KEY_VALUE    : "1234567890"
         ]
-
-        buildConfigField('String', 'SHA256_EXTRA', '"android-xyz!*#73f2we!*#123:Android_qaz!@)(*789"')
-        buildConfigField('String', 'AES_KEY_SERVER', '"ggpt_client_!@#:"')
-        buildConfigField('String', 'AES_KEY_WEB', '"es-aes-html-3&#r"')
-        buildConfigField('String', 'AUTHORIZATION', '"Basic Z2dwdC1hbmRyb2lkLTQ1NiEqIzpnZ3B0LWFuZHJvaWQtNDU2ISoj"')
     }
 
     def PREFIX = "KotlinSample_" // app 名称前缀，用于渠道统计和打包
@@ -86,7 +81,7 @@ android {
 //            signingConfig signingConfigs.release
 
             // release
-            buildConfigField('String', 'BASE_URL', '"http://www.imooc.com"')
+            buildConfigField('String', 'BASE_URL', '"http://www.imooc.com/"')
 
 //            android.applicationVariants.all { variant ->
 //                variant.outputs.all {

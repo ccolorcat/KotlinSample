@@ -16,11 +16,13 @@
 
 package cc.colorcat.mvp.api
 
+import cc.colorcat.mvp.entity.Course
+
 /**
  * Author: cxx
  * Date: 2018-08-27
  * GitHub: https://github.com/ccolorcat
  */
 interface Api {
-
+    fun listCourses(type: Int, num: Int): ApiSender<List<Course>>
 }

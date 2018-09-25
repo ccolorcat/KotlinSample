@@ -32,25 +32,24 @@ import kotlinx.android.synthetic.main.fragment_list.*
  * GitHub: https://github.com/ccolorcat
  */
 abstract class ListFragment<T> : BaseFragment(), IList.View<T> {
-    protected val mItems: MutableList<T> = ArrayList()
+    override val mLayoutId: Int = R.layout.fragment_list
+
+    abstract val mPresenter: IList.Presenter<T>
+    protected open val mItemDecoration: RecyclerView.ItemDecoration?
+        get() = null
+    protected open val mLayoutManager: RecyclerView.LayoutManager
+        get() = LinearLayoutManager(mContext)
+
 
     protected open val mRefreshEnabled = true
     protected open val mLoadMoreEnabled = false
-    override val mLayoutId: Int = R.layout.fragment_list
-    abstract val mPresenter: IList.Presenter<T>
+    protected val mItems: MutableList<T> = ArrayList()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rv_items.layoutManager = getLayoutManager()
-        rv_items.adapter = createRvAdapter(mItems)
-        getItemDecoration()?.also { rv_items.addItemDecoration(it) }
-        if (mLoadMoreEnabled) {
-            rv_items.addOnScrollListener(object : RvLoadMoreScrollListener(1) {
-                override fun onLoadMore() {
-                    mPresenter.toGetMoreItems()
-                }
-            })
-        }
+        rv_items.layoutManager = mLayoutManager
+        rv_items.adapter = createAdapter(mItems)
+        mItemDecoration?.also { rv_items.addItemDecoration(it) }
 
         if (mRefreshEnabled) {
             srl_root.setOnRefreshListener {
@@ -58,6 +57,14 @@ abstract class ListFragment<T> : BaseFragment(), IList.View<T> {
             }
         } else {
             srl_root.isEnabled = false
+        }
+
+        if (mLoadMoreEnabled) {
+            rv_items.addOnScrollListener(object : RvLoadMoreScrollListener(1) {
+                override fun onLoadMore() {
+                    mPresenter.toGetMoreItems()
+                }
+            })
         }
 
         mPresenter.onCreate(this)
@@ -84,11 +91,5 @@ abstract class ListFragment<T> : BaseFragment(), IList.View<T> {
         srl_root.isRefreshing = refreshing
     }
 
-    protected open fun getLayoutManager(): RecyclerView.LayoutManager {
-        return LinearLayoutManager(view!!.context)
-    }
-
-    protected open fun getItemDecoration(): RecyclerView.ItemDecoration? = null
-
-    abstract fun createRvAdapter(items: List<T>): RvAdapter
+    abstract fun createAdapter(items: List<T>): RvAdapter
 }
