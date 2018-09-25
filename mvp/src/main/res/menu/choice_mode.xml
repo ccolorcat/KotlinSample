@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2018 cxx
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,16 +14,14 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <string name="app_name">mvp</string>
-    <string name="thumbnail">thumbnail</string>
-    <string name="demo">Demo</string>
-    <string name="picture">picture</string>
-    <string name="netbird_vangogh_rvadapter">NetBird VanGogh RvAdapter</string>
-    <string name="request_permissions">request permissions</string>
-    <string name="pick_image">pick image</string>
-
-    <string name="single_mode">Single Mode</string>
-    <string name="multiple_mode">Multiple Mode</string>
-    <string name="none">None</string>
-</resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/single"
+        android:title="@string/single_mode" />
+    <item
+        android:id="@+id/multiple"
+        android:title="@string/multiple_mode" />
+    <item
+        android:id="@+id/none"
+        android:title="@string/none" />
+</menu>

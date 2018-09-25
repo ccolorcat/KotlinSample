@@ -24,8 +24,7 @@
     <application android:theme="@style/AppTheme">
         <activity
             android:name=".view.LaunchActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.FullScreen">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

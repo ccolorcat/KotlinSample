@@ -16,6 +16,9 @@
 
 package cc.colorcat.mvp.view
 
+import android.view.ContextMenu
+import android.view.MenuItem
+import android.view.View
 import cc.colorcat.adapter.RvAdapter
 import cc.colorcat.adapter.RvHolder
 import cc.colorcat.adapter.SimpleRvAdapter
@@ -48,5 +51,13 @@ class CoursesFragment : ListFragment<Course>() {
                         .into(helper.get(R.id.iv_icon))
             }
         }
+    }
+
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        return super.onContextItemSelected(item)
     }
 }
