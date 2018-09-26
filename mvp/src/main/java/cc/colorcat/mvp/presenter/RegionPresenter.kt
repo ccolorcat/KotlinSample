@@ -46,6 +46,12 @@ class RegionPresenter : BasePresenter<IRegion.View>(), IRegion.Presenter {
                 mProvinces.clear()
                 mProvinces.addAll(data)
                 view.refreshProvinces(data)
+                view.hideTip()
+            }
+
+            override fun onFailure(view: IRegion.View, code: Int, msg: String) {
+                super.onFailure(view, code, msg)
+                view.showTip()
             }
         })
     }

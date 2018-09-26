@@ -22,6 +22,7 @@ import cc.colorcat.mvp.R
 import cc.colorcat.mvp.contract.IRegion
 import cc.colorcat.mvp.entity.Province
 import cc.colorcat.mvp.presenter.RegionPresenter
+import cc.colorcat.tip.Tip
 import kotlinx.android.synthetic.main.fragment_multi_wheel_view.*
 
 /**
@@ -29,7 +30,10 @@ import kotlinx.android.synthetic.main.fragment_multi_wheel_view.*
  * Date: 2018-09-26
  * GitHub: https://github.com/ccolorcat
  */
-class RegionFragment : BaseFragment(), IRegion.View {
+class RegionFragment : BaseFragment(), IRegion.View, Tip.OnTipClickListener {
+    override val mTip: Tip by lazy {
+        Tip.from(this@RegionFragment, R.layout.load_data_failed, this@RegionFragment)
+    }
     override val mLayoutId: Int = R.layout.fragment_multi_wheel_view
     private val mPresenter: IRegion.Presenter = RegionPresenter()
 
@@ -52,5 +56,9 @@ class RegionFragment : BaseFragment(), IRegion.View {
 
     override fun setAddress(address: String) {
         tv_content.text = address
+    }
+
+    override fun onTipClick() {
+        mPresenter.doGetProvinces()
     }
 }
