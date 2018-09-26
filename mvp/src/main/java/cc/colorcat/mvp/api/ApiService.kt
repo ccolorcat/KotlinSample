@@ -17,6 +17,10 @@
 package cc.colorcat.mvp.api
 
 import cc.colorcat.mvp.entity.Course
+import cc.colorcat.mvp.entity.Province
+import cc.colorcat.netbird.MRequest
+import cc.colorcat.netbird.cache.CacheControl
+import cc.colorcat.parser.gson.GsonParser
 
 /**
  * Author: cxx
@@ -30,5 +34,14 @@ object ApiService : Api {
                 .add("type", type)
                 .add("num", num)
                 .get()
+    }
+
+    override fun listProvinces(): ApiSender<List<Province>> {
+        return object : BaseService<List<Province>>() {
+            override fun createBuilder(): MRequest.Builder<List<Province>> {
+                return MRequest.Builder(object : GsonParser<List<Province>>() {})
+                        .setHeader(CacheControl.HEADER_NAME_MAX_AGE, CacheControl.MAX_AGE_FOREVER.toString())
+            }
+        }.url("https://raw.githubusercontent.com/ccolorcat/city/master/lib/citydata.json").get()
     }
 }

@@ -29,4 +29,6 @@
     <string name="flip_view">FlipView VanGogh</string>
     <string name="tip_network_error">network error</string>
     <string name="click_to_retry">click to retry</string>
+    <string name="custom_multi_wheel_view">MutliWheelView Custom Adapter</string>
+    <string name="simple_multi_wheel_view">MultiWheelView Simple</string>
 </resources>

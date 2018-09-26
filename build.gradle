@@ -67,6 +67,7 @@ project.ext {
     netbirdAndroidSupport = 'com.github.ccolorcat.NetBird:netbird-android-support:v4.3.4'
     netbirdLoggingSupport = 'com.github.ccolorcat.NetBird:netbird-logging-support:v4.3.4'
     netbirdCacheSupport = 'com.github.ccolorcat.NetBird:netbird-cache-support:v4.3.4'
+    netbirdGsonParser = 'com.github.ccolorcat.NetBird:netbird-gson-parser:v4.3.4'
 
 //    chipsLayoutManager = 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
 //    ucrop = 'com.github.yalantis:ucrop:2.2.2'

@@ -79,6 +79,7 @@ dependencies {
     implementation rootProject.ext.netbirdAndroidSupport
     implementation rootProject.ext.netbirdLoggingSupport
     implementation rootProject.ext.netbirdCacheSupport
+    implementation rootProject.ext.netbirdGsonParser
     implementation 'com.alibaba:fastjson:1.1.70.android'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.6'
 }

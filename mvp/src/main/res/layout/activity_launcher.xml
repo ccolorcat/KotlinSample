@@ -39,6 +39,16 @@
         android:text="@string/flip_view" />
 
     <Button
+        android:id="@+id/btn_show_time"
+        style="@style/ButtonLauncher"
+        android:text="@string/custom_multi_wheel_view" />
+
+    <Button
+        android:id="@+id/btn_show_region"
+        style="@style/ButtonLauncher"
+        android:text="@string/simple_multi_wheel_view" />
+
+    <Button
         android:id="@+id/btn_request_permission"
         style="@style/ButtonLauncher"
         android:text="@string/request_permissions" />

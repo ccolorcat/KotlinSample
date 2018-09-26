@@ -42,6 +42,8 @@ class LaunchActivity : BaseActivity() {
         batchClick(mClick,
                 btn_show_courses,
                 btn_show_flipper,
+                btn_show_time,
+                btn_show_region,
                 btn_request_permission,
                 btn_pick_image
         )
@@ -51,6 +53,8 @@ class LaunchActivity : BaseActivity() {
         when (it.id) {
             R.id.btn_show_courses -> navigateToFragment(CoursesFragment::class.java)
             R.id.btn_show_flipper -> navigateToFragment(FlipperFragment::class.java)
+            R.id.btn_show_time -> navigateToFragment(TimeFragment::class.java)
+            R.id.btn_show_region -> navigateToFragment(RegionFragment::class.java)
             R.id.btn_request_permission -> requestWriteExternalStoragePermission()
             R.id.btn_pick_image -> pickImage()
         }

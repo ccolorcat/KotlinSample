@@ -17,6 +17,7 @@
 package cc.colorcat.mvp.api
 
 import cc.colorcat.mvp.entity.Course
+import cc.colorcat.mvp.entity.Province
 
 /**
  * Author: cxx
@@ -25,4 +26,6 @@ import cc.colorcat.mvp.entity.Course
  */
 interface Api {
     fun listCourses(type: Int, num: Int): ApiSender<List<Course>>
+
+    fun listProvinces(): ApiSender<List<Province>>
 }
