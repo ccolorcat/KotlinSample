@@ -41,6 +41,10 @@ class RegionPresenter : BasePresenter<IRegion.View>(), IRegion.Presenter {
     }
 
     override fun doGetProvinces() {
+        toRefreshProvinces()
+    }
+
+    override fun toRefreshProvinces() {
         ApiService.listProvinces().enqueue(object : WeakListener<IRegion.View, List<Province>>(mView) {
             override fun onSuccess(view: IRegion.View, data: List<Province>) {
                 mProvinces.clear()

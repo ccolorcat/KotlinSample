@@ -33,6 +33,8 @@ interface IRegion {
     interface Presenter : IBase.Presenter<View> {
         fun doGetProvinces()
 
+        fun toRefreshProvinces()
+
         fun toSelected(vararg positions: Int)
     }
 }

@@ -59,6 +59,6 @@ class RegionFragment : BaseFragment(), IRegion.View, Tip.OnTipClickListener {
     }
 
     override fun onTipClick() {
-        mPresenter.doGetProvinces()
+        mPresenter.toRefreshProvinces()
     }
 }
