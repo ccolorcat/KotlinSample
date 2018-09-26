@@ -30,15 +30,39 @@ import cc.colorcat.mvp.entity.Course
 import cc.colorcat.mvp.extension.image.CircleTransformer
 import cc.colorcat.mvp.extension.image.ImageLoader
 import cc.colorcat.mvp.presenter.CoursesPresenter
+import cc.colorcat.tip.Tip
+import kotlinx.android.synthetic.main.fragment_list.*
 
 /**
  * Author: cxx
  * Date: 2018-09-21
  * GitHub: https://github.com/ccolorcat
  */
-class CoursesFragment : ListFragment<Course>() {
+class CoursesFragment : ListFragment<Course>(), Tip.OnTipClickListener {
+    override val mTip: Tip by lazy {
+        Tip.from(srl_root, R.layout.network_error, this@CoursesFragment)
+    }
     override val mPresenter: IList.Presenter<Course> = CoursesPresenter()
     private lateinit var mAdapter: ChoiceRvAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.choice_mode, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.single -> setChoiceMode(ChoiceRvAdapter.ChoiceMode.SINGLE)
+            R.id.multiple -> setChoiceMode(ChoiceRvAdapter.ChoiceMode.MULTIPLE)
+            R.id.none -> setChoiceMode(ChoiceRvAdapter.ChoiceMode.NONE)
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun createAdapter(items: List<Course>): RvAdapter {
         mAdapter = object : AutoChoiceRvAdapter() {
@@ -62,23 +86,8 @@ class CoursesFragment : ListFragment<Course>() {
         return mAdapter
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.choice_mode, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.single -> setChoiceMode(ChoiceRvAdapter.ChoiceMode.SINGLE)
-            R.id.multiple -> setChoiceMode(ChoiceRvAdapter.ChoiceMode.MULTIPLE)
-            R.id.none -> setChoiceMode(ChoiceRvAdapter.ChoiceMode.NONE)
-        }
-        return super.onOptionsItemSelected(item)
+    override fun onTipClick() {
+        mPresenter.toRefreshItems()
     }
 
     private fun setChoiceMode(@ChoiceRvAdapter.ChoiceMode mode: Int) {

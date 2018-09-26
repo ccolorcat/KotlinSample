@@ -18,7 +18,10 @@ package cc.colorcat.mvp.presenter
 
 import cc.colorcat.mvp.api.ApiListener
 import cc.colorcat.mvp.api.ApiService
+import cc.colorcat.mvp.api.WeakListener
+import cc.colorcat.mvp.contract.IList
 import cc.colorcat.mvp.entity.Course
+import cc.colorcat.netbird.HttpStatus
 
 /**
  * Author: cxx
@@ -28,5 +31,35 @@ import cc.colorcat.mvp.entity.Course
 class CoursesPresenter : ListPresenter<Course>() {
     override fun loadItems(refresh: Boolean, more: Boolean, listener: ApiListener<List<Course>>) {
         ApiService.listCourses(4, 30).enqueue(listener)
+    }
+
+    override fun getApiListener(more: Boolean): ApiListener<List<Course>> {
+        return object : WeakListener<IList.View<Course>, List<Course>>(mView) {
+            override fun onStart(view: IList.View<Course>) {
+                super.onStart(view)
+                view.setRefreshing(true)
+            }
+
+            override fun onSuccess(view: IList.View<Course>, data: List<Course>) {
+                view.hideTip()
+                if (more) {
+                    view.addMoreItems(data)
+                } else {
+                    view.refreshItems(data)
+                }
+                mHasMore = data.isNotEmpty()
+            }
+
+            override fun onFailure(view: IList.View<Course>, code: Int, msg: String) {
+                if (code == HttpStatus.CODE_CONNECT_ERROR) {
+                    view.showTip()
+                }
+            }
+
+            override fun onFinish(view: IList.View<Course>) {
+                super.onFinish(view)
+                view.setRefreshing(false)
+            }
+        }
     }
 }

@@ -16,7 +16,6 @@
 
 package cc.colorcat.mvp.api;
 
-import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -78,7 +77,6 @@ public abstract class WeakListener<V extends IBase.View, T> extends SimpleListen
 
     public abstract void onSuccess(@NonNull V view, @NonNull T data);
 
-    @CallSuper
     public void onFailure(@NonNull V view, int code, @NonNull String msg) {
         switch (code) {
             case HttpStatus.CODE_CONNECT_ERROR:

@@ -27,6 +27,7 @@
         app:autoStart="true"
         app:indicatorEnabled="true"
         app:infiniteLoop="true"
+        app:pauseOnTouch="true"
         app:titleEnabled="true" />
 
     <TextView
