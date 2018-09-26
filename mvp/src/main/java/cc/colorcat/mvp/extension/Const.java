@@ -26,6 +26,7 @@ public class Const {
 
     public static class key {
         public static final String fragment_name_String = "fragment_name";
+        public static final String title_String = "title";
 
         private key() {throw new AssertionError("no instance");}
     }

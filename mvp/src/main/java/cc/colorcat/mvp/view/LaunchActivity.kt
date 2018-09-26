@@ -20,11 +20,8 @@ import android.Manifest
 import android.os.Bundle
 import android.view.View
 import cc.colorcat.mvp.R
-import cc.colorcat.mvp.extension.ImagePickerRequester
-import cc.colorcat.mvp.extension.PermissionListener
-import cc.colorcat.mvp.extension.batchClick
+import cc.colorcat.mvp.extension.*
 import cc.colorcat.mvp.extension.image.ImageLoader
-import cc.colorcat.mvp.extension.onResultOk
 import kotlinx.android.synthetic.main.activity_launcher.*
 import java.util.*
 
@@ -51,10 +48,22 @@ class LaunchActivity : BaseActivity() {
 
     private val mClick = View.OnClickListener {
         when (it.id) {
-            R.id.btn_show_courses -> navigateToFragment(CoursesFragment::class.java)
-            R.id.btn_show_flipper -> navigateToFragment(FlipperFragment::class.java)
-            R.id.btn_show_time -> navigateToFragment(TimeFragment::class.java)
-            R.id.btn_show_region -> navigateToFragment(RegionFragment::class.java)
+            R.id.btn_show_courses -> {
+                navigateToFragment(CoursesFragment::class.java,
+                        Const.key.title_String to getString(R.string.netbird_vangogh_rvadapter))
+            }
+            R.id.btn_show_flipper -> {
+                navigateToFragment(FlipperFragment::class.java,
+                        Const.key.title_String to getString(R.string.flip_view_vangogh))
+            }
+            R.id.btn_show_time -> {
+                navigateToFragment(TimeFragment::class.java,
+                        Const.key.title_String to getString(R.string.custom_multi_wheel_view))
+            }
+            R.id.btn_show_region -> {
+                navigateToFragment(RegionFragment::class.java,
+                        Const.key.title_String to getString(R.string.simple_multi_wheel_view))
+            }
             R.id.btn_request_permission -> requestWriteExternalStoragePermission()
             R.id.btn_pick_image -> pickImage()
         }

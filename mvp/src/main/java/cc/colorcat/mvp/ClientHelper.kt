@@ -30,8 +30,8 @@ object ClientHelper {
 
     fun init(client: IClient) {
         mClient = client
-        ApiEngine.init(client)
-        ImageLoader.init(client)
+        ApiEngine.init(client.context, client.baseUrl, client.debug)
+        ImageLoader.init(client.context, client.debug)
         if (client.debug) {
             LogUtils.allowAll()
         } else {

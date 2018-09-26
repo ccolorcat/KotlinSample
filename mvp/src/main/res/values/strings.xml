@@ -26,7 +26,7 @@
     <string name="single_mode">Single Mode</string>
     <string name="multiple_mode">Multiple Mode</string>
     <string name="none">None</string>
-    <string name="flip_view">FlipView VanGogh</string>
+    <string name="flip_view_vangogh">FlipView VanGogh</string>
     <string name="tip_network_error">network error</string>
     <string name="click_to_retry">click to retry</string>
     <string name="custom_multi_wheel_view">MutliWheelView Custom Adapter</string>

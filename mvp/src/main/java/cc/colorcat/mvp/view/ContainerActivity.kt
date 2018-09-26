@@ -29,6 +29,7 @@ class ContainerActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_container)
+        getExtra<String>(Const.key.title_String)?.also { title = it }
         @Suppress("UNCHECKED_CAST")
         val clazz = Class.forName(getExtra(Const.key.fragment_name_String)!!) as Class<BaseFragment>
         mManager.beginTransaction()

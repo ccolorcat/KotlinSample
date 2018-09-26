@@ -16,11 +16,13 @@
 
 package cc.colorcat.mvp.api
 
-import cc.colorcat.mvp.IClient
+import android.content.Context
+import cc.colorcat.mvp.extension.json.JsonUtils
 import cc.colorcat.netbird.Level
 import cc.colorcat.netbird.MRequest
 import cc.colorcat.netbird.NetBird
 import cc.colorcat.netbird.android.AndroidPlatform
+import cc.colorcat.parser.gson.GsonParser
 import java.io.IOException
 
 /**
@@ -31,18 +33,19 @@ import java.io.IOException
 object ApiEngine {
     private lateinit var netBird: NetBird
 
-    fun init(client: IClient) {
-        val builder = NetBird.Builder(client.baseUrl)
+    fun init(context: Context, baseUrl: String, debug: Boolean) {
+        GsonParser.setGson(JsonUtils.GSON)
+        val builder = NetBird.Builder(baseUrl)
                 .platform(AndroidPlatform())
                 .connectTimeOut(10000)
                 .readTimeOut(10000)
                 .enableGzip(true)
-        if (client.debug) {
+        if (debug) {
             builder.logLevel(Level.VERBOSE).addTailInterceptor(JsonLoggingTailInterceptor())
         } else {
             builder.logLevel(Level.NOTHING)
         }
-        val cacheInterceptor = AndroidCacheInterceptor.create(client.context, emptyList())
+        val cacheInterceptor = AndroidCacheInterceptor.create(context, emptyList())
         if (cacheInterceptor != null) {
             builder.addTailInterceptor(cacheInterceptor)
         }

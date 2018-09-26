@@ -28,7 +28,7 @@ import java.lang.reflect.Type;
  * GitHub: https://github.com/ccolorcat
  */
 public class JsonUtils {
-    private static final Gson GSON;
+    public static final Gson GSON;
 
     static {
         GSON = new GsonBuilder()

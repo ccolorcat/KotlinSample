@@ -26,7 +26,6 @@ import android.support.annotation.DrawableRes
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
-import cc.colorcat.mvp.IClient
 import cc.colorcat.mvp.extension.getService
 import cc.colorcat.vangogh.Creator
 import cc.colorcat.vangogh.From
@@ -148,20 +147,18 @@ class ImageLoader private constructor(private val creator: Creator) {
         val from_any = From.ANY.policy
 
         @JvmStatic
-        fun init(client: IClient) {
-            val ctx = client.context
-            val debug = client.debug
-            val usableSpace = ctx.getService<ActivityManager>(Context.ACTIVITY_SERVICE).memoryClass
+        fun init(context: Context, debug: Boolean) {
+            val usableSpace = context.getService<ActivityManager>(Context.ACTIVITY_SERVICE).memoryClass
             val memoryCacheSize = Math.min((usableSpace * 1024 * 1024 / 7).toLong(), 1024L * 1024L * 20L)
 
             val size = Point()
-            ctx.getService<WindowManager>(Context.WINDOW_SERVICE).defaultDisplay.getSize(size)
+            context.getService<WindowManager>(Context.WINDOW_SERVICE).defaultDisplay.getSize(size)
             val maxSize = Math.max(size.x, size.y)
             val global = Task.Options()
             global.maxSize(maxSize, maxSize)
             global.config(Bitmap.Config.RGB_565)
 
-            val builder = VanGogh.Builder(ctx)
+            val builder = VanGogh.Builder(context)
                     .connectTimeOut(10000)
                     .readTimeOut(10000)
                     .fade(true)
@@ -169,7 +166,7 @@ class ImageLoader private constructor(private val creator: Creator) {
                     .options(global)
                     .indicator(debug)
                     .log(debug)
-            val cacheDir = ctx.externalCacheDir
+            val cacheDir = context.externalCacheDir
             if (cacheDir != null) {
                 val maxCacheSize = Math.min(300L * 1024L * 1024L, (cacheDir.usableSpace * 0.1).toLong())
                 builder.diskCache(cacheDir).diskCacheSize(maxCacheSize)
