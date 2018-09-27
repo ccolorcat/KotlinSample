@@ -31,7 +31,8 @@ task clean(type: Delete) {
 
 project.ext {
     def sdkVersion = 28
-    def supportVersion = "28.0.0-rc02"
+    def supportVersion = "28.0.0"
+    def netBirdVersion = "v4.3.4"
 
     // android
     compileSdkVersion = sdkVersion
@@ -54,20 +55,21 @@ project.ext {
     testEspresso = 'com.android.support.test.espresso:espresso-core:3.0.1'
     junit = 'junit:junit:4.12'
 
-    gson = 'com.google.code.gson:gson:2.8.5'
     statusBarCompat = 'com.githang:status-bar-compat:0.7'
+    gson = 'com.google.code.gson:gson:2.8.5'
     tip = 'com.github.ccolorcat:Tip:v1.0.0'
+    gsonUtil = 'com.github.ccolorcat:GsonUtil:v1.0.1'
     broker = 'com.github.ccolorcat:Broker:v1.0.1'
     adapter = 'com.github.ccolorcat:Adapter:v1.2.0'
     flipView = 'com.github.ccolorcat:FlipView:v2.0.2'
     wheelView = 'com.github.ccolorcat:WheelView:v1.0.0'
     countTimer = 'com.github.ccolorcat:CountTimer:v1.0.0'
     vanGogh = 'com.github.ccolorcat:VanGogh:v2.4.0'
-    netbird = 'com.github.ccolorcat.NetBird:netbird:v4.3.4'
-    netbirdAndroidSupport = 'com.github.ccolorcat.NetBird:netbird-android-support:v4.3.4'
-    netbirdLoggingSupport = 'com.github.ccolorcat.NetBird:netbird-logging-support:v4.3.4'
-    netbirdCacheSupport = 'com.github.ccolorcat.NetBird:netbird-cache-support:v4.3.4'
-    netbirdGsonParser = 'com.github.ccolorcat.NetBird:netbird-gson-parser:v4.3.4'
+    netbird = "com.github.ccolorcat.NetBird:netbird:${netBirdVersion}"
+    netbirdAndroidSupport = "com.github.ccolorcat.NetBird:netbird-android-support:${netBirdVersion}"
+    netbirdLoggingSupport = "com.github.ccolorcat.NetBird:netbird-logging-support:${netBirdVersion}"
+    netbirdCacheSupport = "com.github.ccolorcat.NetBird:netbird-cache-support:${netBirdVersion}"
+    netbirdGsonParser = "com.github.ccolorcat.NetBird:netbird-gson-parser:${netBirdVersion}"
 
 //    chipsLayoutManager = 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
 //    ucrop = 'com.github.yalantis:ucrop:2.2.2'

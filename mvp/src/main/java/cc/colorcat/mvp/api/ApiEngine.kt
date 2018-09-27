@@ -17,7 +17,7 @@
 package cc.colorcat.mvp.api
 
 import android.content.Context
-import cc.colorcat.mvp.extension.json.JsonUtils
+import cc.colorcat.mvp.extension.JsonUtils
 import cc.colorcat.netbird.Level
 import cc.colorcat.netbird.MRequest
 import cc.colorcat.netbird.NetBird

@@ -17,7 +17,7 @@
 package cc.colorcat.mvp.api
 
 import cc.colorcat.mvp.entity.Result
-import cc.colorcat.mvp.extension.json.JsonUtils
+import cc.colorcat.mvp.extension.JsonUtils
 import cc.colorcat.netbird.NetworkData
 import cc.colorcat.netbird.Parser
 import cc.colorcat.netbird.Response

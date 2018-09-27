@@ -74,6 +74,7 @@ dependencies {
     implementation rootProject.ext.tip
     implementation rootProject.ext.flipView
     implementation rootProject.ext.wheelView
+    implementation rootProject.ext.gsonUtil
 
     implementation rootProject.ext.netbird
     implementation rootProject.ext.netbirdAndroidSupport
