@@ -17,7 +17,9 @@
 package cc.colorcat.mvp.api
 
 import android.content.Context
+import cc.colorcat.kingfisher.core.KingFisher
 import cc.colorcat.mvp.extension.JsonUtils
+import cc.colorcat.mvp.service.ResultParserFactory
 import cc.colorcat.netbird.Level
 import cc.colorcat.netbird.MRequest
 import cc.colorcat.netbird.NetBird
@@ -50,6 +52,10 @@ object ApiEngine {
             builder.addTailInterceptor(cacheInterceptor)
         }
         netBird = builder.build()
+        KingFisher.Builder()
+                .client(netBird)
+                .addParserFactory(ResultParserFactory<Any>(JsonUtils.GSON))
+                .initialize()
     }
 
     fun <T> sendRequest(request: MRequest<T>): Any {

@@ -9,7 +9,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -33,6 +33,7 @@ project.ext {
     def sdkVersion = 28
     def supportVersion = "28.0.0"
     def netBirdVersion = "v4.3.4"
+    def kingFisherVersion = "v1.0.0"
 
     // android
     compileSdkVersion = sdkVersion
@@ -70,6 +71,10 @@ project.ext {
     netbirdLoggingSupport = "com.github.ccolorcat.NetBird:netbird-logging-support:${netBirdVersion}"
     netbirdCacheSupport = "com.github.ccolorcat.NetBird:netbird-cache-support:${netBirdVersion}"
     netbirdGsonParser = "com.github.ccolorcat.NetBird:netbird-gson-parser:${netBirdVersion}"
+    kingFisherCore = "com.github.ccolorcat.KingFisher:core:${kingFisherVersion}"
+    kingFisherAnnotation = "com.github.ccolorcat.KingFisher:annotation:${kingFisherVersion}"
+    kingFisherProcessor = "com.github.ccolorcat.KingFisher:processor:${kingFisherVersion}"
+    kingFisherGsonParserFactory = "com.github.ccolorcat.KingFisher:gson_parser_factory:${kingFisherVersion}"
 
 //    chipsLayoutManager = 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
 //    ucrop = 'com.github.yalantis:ucrop:2.2.2'

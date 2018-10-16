@@ -16,12 +16,12 @@
 
 package cc.colorcat.mvp.api;
 
-import cc.colorcat.netbird.MRequest;
+import cc.colorcat.kingfisher.core.Callback;
 
 /**
  * Author: cxx
  * Date: 2018-08-24
  * GitHub: https://github.com/ccolorcat
  */
-public interface ApiListener<T> extends MRequest.Listener<T> {
+public interface ApiListener<T> extends Callback<T> {
 }

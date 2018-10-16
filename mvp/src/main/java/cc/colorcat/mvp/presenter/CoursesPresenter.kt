@@ -17,7 +17,6 @@
 package cc.colorcat.mvp.presenter
 
 import cc.colorcat.mvp.api.ApiListener
-import cc.colorcat.mvp.api.ApiService
 import cc.colorcat.mvp.api.WeakListener
 import cc.colorcat.mvp.contract.IList
 import cc.colorcat.mvp.entity.Course
@@ -30,7 +29,8 @@ import cc.colorcat.netbird.HttpStatus
  */
 class CoursesPresenter : ListPresenter<Course>() {
     override fun loadItems(refresh: Boolean, more: Boolean, listener: ApiListener<List<Course>>) {
-        ApiService.listCourses(4, 30).enqueue(listener)
+//        ApiService.listCourses(4, 30).enqueue(listener)
+        mService.listCourses(4, 30).enqueue(listener)
     }
 
     override fun getApiListener(more: Boolean): ApiListener<List<Course>> {

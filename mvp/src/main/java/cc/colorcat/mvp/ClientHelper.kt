@@ -19,6 +19,8 @@ package cc.colorcat.mvp
 import cc.colorcat.mvp.api.ApiEngine
 import cc.colorcat.mvp.extension.LogUtils
 import cc.colorcat.mvp.extension.image.ImageLoader
+import cc.colorcat.mvp.service.SampleApi
+import cc.colorcat.mvp.service.SampleApiService
 
 /**
  * Author: cxx
@@ -27,6 +29,7 @@ import cc.colorcat.mvp.extension.image.ImageLoader
  */
 object ClientHelper {
     private lateinit var mClient: IClient
+    val mService: SampleApi by lazy { SampleApiService() }
 
     fun init(client: IClient) {
         mClient = client

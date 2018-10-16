@@ -14,29 +14,20 @@
  * limitations under the License.
  */
 
-package cc.colorcat.mvp.presenter
+package cc.colorcat.mvp.service
 
-import android.support.annotation.CallSuper
-import cc.colorcat.mvp.ClientHelper
-import cc.colorcat.mvp.contract.IBase
-import cc.colorcat.mvp.service.SampleApi
+import cc.colorcat.kingfisher.core.ParserFactory
+import cc.colorcat.netbird.Parser
+import com.google.gson.Gson
+import java.lang.reflect.Type
 
 /**
  * Author: cxx
- * Date: 2018-09-21
+ * Date: 2018-10-16
  * GitHub: https://github.com/ccolorcat
  */
-abstract class BasePresenter<V : IBase.View> : IBase.Presenter<V> {
-    protected val mService: SampleApi by lazy { ClientHelper.mService }
-    protected var mView: V? = null
-
-    @CallSuper
-    override fun onCreate(view: V) {
-        mView = view
-    }
-
-    @CallSuper
-    override fun onDestroy() {
-        mView = null
+class ResultParserFactory<T>(private val gson: Gson) : ParserFactory<T> {
+    override fun newParser(typeOfT: Type): Parser<out T> {
+        return ResultParser(gson, typeOfT)
     }
 }

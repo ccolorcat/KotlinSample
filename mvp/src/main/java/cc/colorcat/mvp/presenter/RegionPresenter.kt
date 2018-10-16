@@ -16,11 +16,11 @@
 
 package cc.colorcat.mvp.presenter
 
-import cc.colorcat.mvp.api.ApiService
 import cc.colorcat.mvp.api.WeakListener
 import cc.colorcat.mvp.contract.IRegion
 import cc.colorcat.mvp.entity.Province
 import cc.colorcat.mvp.entity.RegionNode
+import cc.colorcat.parser.gson.GsonParser
 
 /**
  * Author: cxx
@@ -45,19 +45,35 @@ class RegionPresenter : BasePresenter<IRegion.View>(), IRegion.Presenter {
     }
 
     override fun toRefreshProvinces() {
-        ApiService.listProvinces().enqueue(object : WeakListener<IRegion.View, List<Province>>(mView) {
-            override fun onSuccess(view: IRegion.View, data: List<Province>) {
-                mProvinces.clear()
-                mProvinces.addAll(data)
-                view.refreshProvinces(data)
-                view.hideTip()
-            }
+//        ApiService.listProvinces().enqueue(object : WeakListener<IRegion.View, List<Province>>(mView) {
+//            override fun onSuccess(view: IRegion.View, data: List<Province>) {
+//                mProvinces.clear()
+//                mProvinces.addAll(data)
+//                view.refreshProvinces(data)
+//                view.hideTip()
+//            }
+//
+//            override fun onFailure(view: IRegion.View, code: Int, msg: String) {
+//                super.onFailure(view, code, msg)
+//                view.showTip()
+//            }
+//        })
 
-            override fun onFailure(view: IRegion.View, code: Int, msg: String) {
-                super.onFailure(view, code, msg)
-                view.showTip()
-            }
-        })
+        mService.listProvinces()
+                .parser(object : GsonParser<List<Province>>() {})
+                .enqueue(object : WeakListener<IRegion.View, List<Province>>(mView) {
+                    override fun onSuccess(view: IRegion.View, data: List<Province>) {
+                        mProvinces.clear()
+                        mProvinces.addAll(data)
+                        view.refreshProvinces(data)
+                        view.hideTip()
+                    }
+
+                    override fun onFailure(view: IRegion.View, code: Int, msg: String) {
+                        super.onFailure(view, code, msg)
+                        view.showTip()
+                    }
+                })
     }
 
     override fun toSelected(vararg positions: Int) {

@@ -17,6 +17,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -81,6 +82,10 @@ dependencies {
     implementation rootProject.ext.netbirdLoggingSupport
     implementation rootProject.ext.netbirdCacheSupport
     implementation rootProject.ext.netbirdGsonParser
+    implementation rootProject.ext.kingFisherCore
+    implementation rootProject.ext.kingFisherAnnotation
+    implementation rootProject.ext.kingFisherGsonParserFactory
+    kapt rootProject.ext.kingFisherProcessor
     implementation 'com.alibaba:fastjson:1.1.70.android'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.6'
 }
