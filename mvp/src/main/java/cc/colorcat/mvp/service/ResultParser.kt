@@ -33,13 +33,26 @@ import java.lang.reflect.Type
 class ResultParser<T>(private val gson: Gson, private val typeOfT: Type) : Parser<T> {
     override fun parse(response: Response): NetworkData<out T> {
         try {
-            val resultType = TypeToken.getParameterized(Result::class.java, typeOfT).type
-            val result: Result<T> = gson.fromJson(response.responseBody().reader(), resultType)
+            // fastjson
+//            val content = response.responseBody().string()
+//            val pt = ParameterizedTypeImpl(arrayOf(typeOfT), null, Result::class.java)
+//            val result = JSON.parseObject<Result<T>>(content, pt)
+
+            // jackson
+//            val reader = response.responseBody().reader()
+//            val factory = TypeFactory.defaultInstance()
+//            val innerType = factory.constructType(typeOfT)
+//            val outerType = factory.constructParametricType(Result::class.java, innerType)
+//            val result = MAPPER.readValue<Result<T>>(reader, outerType)
+
+            // gson
+            val type = TypeToken.getParameterized(Result::class.java, typeOfT).type
+            val result: Result<T> = gson.fromJson(response.responseBody().reader(), type)
             val data = result.data
             return if (result.status == Result.STATUS_OK && data != null) {
                 NetworkData.newSuccess(data)
             } else {
-                NetworkData.newFailure(response.responseCode(), response.responseMsg())
+                NetworkData.newFailure(result.status, result.msg)
             }
         } catch (e: Exception) {
             throw StateIOException(response.responseCode(), response.responseMsg(), e)

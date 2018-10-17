@@ -16,11 +16,20 @@
 
 package cc.colorcat.mvp
 
-import cc.colorcat.mvp.api.ApiEngine
+import android.util.Log
+import cc.colorcat.kingfisher.core.KingFisher
+import cc.colorcat.mvp.api.AndroidCacheInterceptor
+import cc.colorcat.mvp.api.JsonLoggingTailInterceptor
+import cc.colorcat.mvp.extension.JsonUtils
 import cc.colorcat.mvp.extension.LogUtils
 import cc.colorcat.mvp.extension.image.ImageLoader
+import cc.colorcat.mvp.service.ResultParserFactory
 import cc.colorcat.mvp.service.SampleApi
 import cc.colorcat.mvp.service.SampleApiService
+import cc.colorcat.netbird.Level
+import cc.colorcat.netbird.NetBird
+import cc.colorcat.netbird.android.AndroidPlatform
+import cc.colorcat.parser.gson.GsonParser
 
 /**
  * Author: cxx
@@ -33,13 +42,31 @@ object ClientHelper {
 
     fun init(client: IClient) {
         mClient = client
-        ApiEngine.init(client.context, client.baseUrl, client.debug)
+        initKingFisher(client)
         ImageLoader.init(client.context, client.debug)
+        LogUtils.setThreshold(if (client.debug) Log.VERBOSE else Log.ASSERT + 1)
+    }
+
+    private fun initKingFisher(client: IClient) {
+        GsonParser.setGson(JsonUtils.GSON)
+        val builder = NetBird.Builder(client.baseUrl)
+                .platform(AndroidPlatform())
+                .connectTimeOut(10000)
+                .readTimeOut(10000)
+                .enableGzip(true)
         if (client.debug) {
-            LogUtils.allowAll()
+            builder.logLevel(Level.VERBOSE).addTailInterceptor(JsonLoggingTailInterceptor())
         } else {
-            LogUtils.disallowAny()
+            builder.logLevel(Level.NOTHING)
         }
+        val cacheInterceptor = AndroidCacheInterceptor.create(client.context, emptyList())
+        if (cacheInterceptor != null) {
+            builder.addTailInterceptor(cacheInterceptor)
+        }
+        KingFisher.Builder()
+                .client(builder.build())
+                .addParserFactory(ResultParserFactory<Any>(JsonUtils.GSON))
+                .initialize()
     }
 
     fun releaseMemory() {
