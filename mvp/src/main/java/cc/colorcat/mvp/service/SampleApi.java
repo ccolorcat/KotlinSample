@@ -21,10 +21,12 @@ import java.util.List;
 import cc.colorcat.kingfisher.annotation.Api;
 import cc.colorcat.kingfisher.annotation.GET;
 import cc.colorcat.kingfisher.annotation.Param;
+import cc.colorcat.kingfisher.annotation.Path;
 import cc.colorcat.kingfisher.annotation.Url;
 import cc.colorcat.kingfisher.core.Call;
 import cc.colorcat.mvp.entity.Course;
 import cc.colorcat.mvp.entity.Province;
+import cc.colorcat.mvp.entity.Repo;
 
 /**
  * Author: cxx
@@ -39,4 +41,7 @@ public interface SampleApi {
     @Url("https://raw.githubusercontent.com/ccolorcat/city/master/lib/citydata.json")
     @GET
     Call<List<Province>> listProvinces();
+
+    @GET("users/{user}/repos")
+    Call<List<Repo>> listRepos(@Path("user") String user);
 }
