@@ -38,6 +38,7 @@ class LaunchActivity : BaseActivity() {
 
         batchClick(mClick,
                 btn_show_courses,
+                btn_show_repos,
                 btn_show_flipper,
                 btn_show_time,
                 btn_show_region,
@@ -51,6 +52,10 @@ class LaunchActivity : BaseActivity() {
             R.id.btn_show_courses -> {
                 navigateToFragment(CoursesFragment::class.java,
                         Const.key.title_String to getString(R.string.netbird_vangogh_rvadapter))
+            }
+            R.id.btn_show_repos -> {
+                navigateToFragment(ReposFragment::class.java,
+                        Const.key.title_String to getString(R.string.kingfisher_vangogh_rvadapter))
             }
             R.id.btn_show_flipper -> {
                 navigateToFragment(FlipperFragment::class.java,

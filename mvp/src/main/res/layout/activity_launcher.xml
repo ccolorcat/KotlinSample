@@ -34,6 +34,11 @@
         android:text="@string/netbird_vangogh_rvadapter" />
 
     <Button
+        android:id="@+id/btn_show_repos"
+        style="@style/ButtonLauncher"
+        android:text="@string/kingfisher_vangogh_rvadapter" />
+
+    <Button
         android:id="@+id/btn_show_flipper"
         style="@style/ButtonLauncher"
         android:text="@string/flip_view_vangogh" />

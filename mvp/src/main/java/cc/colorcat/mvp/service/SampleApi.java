@@ -42,6 +42,7 @@ public interface SampleApi {
     @GET
     Call<List<Province>> listProvinces();
 
+    @Url("https://api.github.com/")
     @GET("users/{user}/repos")
     Call<List<Repo>> listRepos(@Path("user") String user);
 }
